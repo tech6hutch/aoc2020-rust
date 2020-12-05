@@ -104,7 +104,7 @@ mod north_pole_toboggan_rental_shop {
                 let pos2 = s[hyphen_idx+HYPHEN.len()..space_idx].parse()
                     .context("invalid 2nd position")?;
                 let letter = s[space_idx+SPACE.len()..].chars().exactly_one()
-                    .map_err(|e| Error::msg(format!("{:?}", e)))
+                    .map_err(error_from_debug)
                     .context("expected a single char")?;
 
                 Ok(Self { positions: [pos1, pos2], letter })
