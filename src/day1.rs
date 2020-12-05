@@ -50,17 +50,10 @@ impl FromStr for ExpenseReport {
     type Err = &'static str;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        parse_lines(s)
+        s.parse_lines()
             .map(ExpenseReport)
             .map_err(|_| "couldn't parse number")
     }
-}
-
-fn parse_lines<T: FromStr>(s: &str) -> Result<Vec<T>, T::Err> {
-    s
-        .lines()
-        .map(|s| s.parse())
-        .collect()
 }
 
 #[cfg(test)]
