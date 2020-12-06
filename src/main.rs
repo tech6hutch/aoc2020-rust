@@ -1,4 +1,4 @@
-mod util;
+#[allow(dead_code)] mod util;
 // mod day1;
 // mod day2;
 // mod day3;
