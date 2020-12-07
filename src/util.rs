@@ -15,15 +15,38 @@ pub(crate) fn error_from_debug(e: impl Debug) -> Error {
     Error::msg(format!("{:?}", e))
 }
 
-pub(crate) trait ParseStrLines<T: FromStr> {
-    fn parse_lines(self) -> Result<Vec<T>, T::Err>;
+// TODO: I *think* this won't break past days' solutions
+pub(crate) trait ParseStrLines<Coll, E> {
+    fn parse_lines(self) -> Result<Coll, E>;
 }
 
-impl<T: FromStr> ParseStrLines<T> for &str {
+impl<T: FromStr> ParseStrLines<Vec<T>, T::Err> for &str {
     fn parse_lines(self) -> Result<Vec<T>, T::Err> {
         self
             .lines()
             .map(|s| s.parse())
             .collect()
     }
+}
+
+impl<T: FromStr> ParseStrLines<Box<[T]>, T::Err> for &str {
+    fn parse_lines(self) -> Result<Box<[T]>, T::Err> {
+        self
+            .lines()
+            .map(|s| s.parse())
+            .collect()
+    }
+}
+
+macro_rules! unwrap_or {
+    ($opt:expr, $default:expr) => {
+        if let Some(t) = $opt { t }
+        else { $default }
+    };
+    ($res:expr, $e:ident => $default:expr) => {
+        match $res {
+            Ok(t) => t,
+            Err($e) => $default,
+        }
+    };
 }
