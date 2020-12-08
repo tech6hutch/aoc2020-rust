@@ -29,14 +29,17 @@ impl<T: FromStr> ParseStrLines<Vec<T>, T::Err> for &str {
     }
 }
 
-impl<T: FromStr> ParseStrLines<Box<[T]>, T::Err> for &str {
-    fn parse_lines(self) -> Result<Box<[T]>, T::Err> {
+impl<T: FromStr> ParseStrLines<Array<T>, T::Err> for &str {
+    fn parse_lines(self) -> Result<Array<T>, T::Err> {
         self
             .lines()
             .map(|s| s.parse())
             .collect()
     }
 }
+
+// I always forget the brackets
+pub(crate) type Array<T> = Box<[T]>;
 
 macro_rules! unwrap_or {
     ($opt:expr, $default:expr) => {
