@@ -24,7 +24,7 @@ impl<T: FromStr> ParseStrLines<Vec<T>, T::Err> for &str {
     fn parse_lines(self) -> Result<Vec<T>, T::Err> {
         self
             .lines()
-            .map(|s| s.parse())
+            .map(str::parse)
             .collect()
     }
 }
@@ -33,7 +33,7 @@ impl<T: FromStr> ParseStrLines<Array<T>, T::Err> for &str {
     fn parse_lines(self) -> Result<Array<T>, T::Err> {
         self
             .lines()
-            .map(|s| s.parse())
+            .map(str::parse)
             .collect()
     }
 }
